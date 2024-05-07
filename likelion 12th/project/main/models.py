@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 
 # Create your models here.
 class Post(models.Model) :
@@ -7,7 +6,7 @@ class Post(models.Model) :
     category = models.CharField(max_length=30)
     writer = models.CharField(max_length=30)
     body = models.TextField()
-    pub_date = models.DateTimeField(default=timezone.now)
+    pub_date = models.DateTimeField()
     image = models.ImageField(upload_to="post/", blank=True, null=True)
 
     def __str__(self):
