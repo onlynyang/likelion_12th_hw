@@ -3,8 +3,10 @@ from django.utils import timezone
 
 from main.models import Post
 
+from django.contrib.auth.decorators import login_required
+
 def mypage(request):
-    posts = Post.objects.all()
+    posts = Post.objects.filter(writer=request.user)
     return render(request, 'users/mypage.html', {'posts': posts})
 
 def detail(request, id):
