@@ -4,8 +4,8 @@ from django.utils import timezone
 # Create your models here.
 class Post(models.Model) :
     title = models.CharField(max_length=50)
-    category = models.CharField(max_length=30)
-    writer = models.CharField(max_length=30)
+    category = models.CharField(max_length=30, null=True)
+    writer = models.CharField(max_length=30, null=True)
     body = models.TextField()
     pub_date = models.DateTimeField(default=timezone.now)
     image = models.ImageField(upload_to="post/", blank=True, null=True)
@@ -15,3 +15,5 @@ class Post(models.Model) :
     
     def summary(self):
         return self.body[:20]
+
+# Create your models here.
