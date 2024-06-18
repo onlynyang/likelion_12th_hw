@@ -2,16 +2,36 @@
 {% block content %}
 <h1 class="contents">2024 멋쟁이사자처럼 12기</h1>
 <div class="contents">목록</div>
-<div>
- {% for post in posts %}
- <div>
- <hr/>
- <h3>{{post.title}}</h3>
- {{post.writer}} | {{post.category}} | {{post.pub_date}}<br>
- {{post.summary}}
- <a href="{% url 'main:detail' post.id %}">자세히 보기</a>
- <br>
- </div>
- {% endfor %}
-</div>
+User: {{ user }} <br>
+UserProfile: {{ user.profile }} <br>
+
+<p>팔로워<br>{{ user.profile.followers.count }}명</p>
+<ul>
+    {% for follower in user.profile.followers.all %}
+        <li><a href="{% url 'users:mypage' follower.user.id %}">{{ follower.user.username }}</a></li>
+    {% empty %}
+        <li>팔로워가 없습니다.</li>
+    {% endfor %}
+</ul>
+
+<p>팔로잉<br>{{ user.profile.followings.count }}명</p>
+<ul>
+    {% for following in user.profile.followings.all %}
+        <li><a href="{% url 'users:mypage' following.user.id %}">{{ following.user.username }}</a></li>
+    {% empty %}
+        <li>팔로잉하는 사용자가 없습니다.</li>
+    {% endfor %}
+</ul>
+
+{% if request.user != user %}
+    {% if request.user.profile in user.profile.followers.all %}
+        <a href="{% url 'users:follow' user.id %}">
+        <button type="button" class="btn btn-outline-info">언팔로우</button>
+        </a>
+    {% else %}
+        <a href="{% url 'users:follow' user.id %}">
+        <button type="button" class="btn btn-outline-info">팔로우</button>
+        </a>
+    {% endif %}
+{% endif %}
 {% endblock %}
